@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNirvana - Mobile Skins & Accessories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+        header {
+            background: #111;
+            color: #fff;
+            padding: 25px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .section {
+            padding: 25px;
+            margin: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #111;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .upload-area {
+            border: 3px dashed #111;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+        .upload-area.dragover {
+            transform: scale(1.02);
+        }
+        #fileInput {
+            display: none;
+        }
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .preview-item {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        footer {
+            text-align: center;
+            padding: 18px;
+            background: #111;
+            color: #fff;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    TechNirvana<br>
+    <small>Premium Mobile Skins & Accessories</small>
+</header>
+
+<div class="section">
+    <h2>📸 Upload Mobile Skins & Accessories Images</h2>
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <div>📱 Click here or Drag & Drop</div>
+        <div style="font-size: 14px; margin-top: 10px; color: #666;">
+            Mobile Skins, Cases, Chargers, Speakers etc.
+        </div>
+    </div>
+    
+    <input type="file" id="fileInput" multiple accept="image/*">
+    
+    <div class="preview-container" id="previewContainer"></div>
+</div>
+
+<div class="section">
+    <h2>🔥 Our Mobile Skins</h2>
+    <p>• Premium Matte Skins<br>• Carbon Fiber Skins<br>• Transparent Clear Skins<br>• Camera Protection Skins<br>• 100% Bubble-Free Application</p>
+</div>
+
+<div class="section">
+    <h2>📦 Mobile Accessories</h2>
+    <p>• Tempered Glass (9H/11D/UV)<br>• Back Covers & Silicon Cases<br>• Fast Chargers & Cables<br>• Bluetooth Speakers<br>• Earphones & Neckbands</p>
+</div>
+
+<div class="section">
+    <h2>✔ Why Choose TechNirvana?</h2>
+    <p>✓ Professional Mobile Skin Application<br>✓ Premium Quality Products Only<br>✓ Affordable & Transparent Pricing<br>✓ Trusted by Local Customers</p>
+</div>
+
+<div class="section">
+    <h2>📞 Contact Us</h2>
+    <p>For orders & inquiries:</p>
+    <a class="btn" href="https://wa.me/9954928769">Chat on WhatsApp</a>
+</div>
+
+<footer>
+    © 2025 TechNirvana — All Rights Reserved
+</footer>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const uploadArea = document.querySelector('.upload-area');
+
+    // Click to upload
+    fileInput.addEventListener('change', handleFiles);
+
+    // Drag & Drop
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+        handleFiles({ target: { files } });
+    });
+
+    function handleFiles(event) {
+        const files = Array.from(event.target.files);
+        files.forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => createPreview(e.target.result, file.name);
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    function createPreview(imageSrc, fileName) {
+        const previewItem = document.createElement('div');
+        previewItem.className = 'preview-item';
+        previewItem.innerHTML = `
+            <img src="${imageSrc}" alt="${fileName}">
+            <button class="remove-btn" onclick="removePreview(this)">×</button>
+        `;
+        previewContainer.appendChild(previewItem);
+    }
+
+    function removePreview(button) {
+        button.parentElement.remove();
+    }
+</script>
+
+</body>
+</html>
